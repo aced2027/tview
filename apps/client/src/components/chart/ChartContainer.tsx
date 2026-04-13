@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { createChart, IChartApi, ISeriesApi } from 'lightweight-charts';
+import { createChart, IChartApi, ISeriesApi, MouseEventParams } from 'lightweight-charts';
 import { useChartStore } from '../../stores/chartStore';
 import { useChartData } from '../../hooks/useChartData';
 import { ChartToolbar } from './ChartToolbar';
 import { DrawingToolsSidebar } from './DrawingToolsSidebar';
 import { ChartInteractionLayer } from './ChartInteractionLayer';
-import { DrawingTool, CursorTool, TrendTool } from '../../types';
+import { CrosshairTooltip } from './CrosshairTooltip';
+import { DrawingTool, CursorTool, TrendTool, Candle } from '../../types';
 
 export function ChartContainer() {
   const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -13,6 +14,11 @@ export function ChartContainer() {
   const seriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);
   const renderRef = useRef<number>(0);
   const [activeTool, setActiveTool] = useState<DrawingTool>('cross');
+  const [crosshairData, setCrosshairData] = useState<{
+    candle: Candle | null;
+    x: number;
+    y: number;
+  } | null>(null);
   
   // Subscribe to store values individually for proper reactivity
   const symbol = useChartStore((state) => state.symbol);
@@ -45,12 +51,18 @@ export function ChartContainer() {
         horzLines: { color: '#21262d' },
       },
       crosshair: {
-        mode: 1, // Hidden mode - we'll draw our own custom crosshair
+        mode: 1, // Normal crosshair mode
         vertLine: {
-          visible: false,
+          visible: true,
+          color: '#758696',
+          width: 1,
+          style: 3, // Dashed
         },
         horzLine: {
-          visible: false,
+          visible: true,
+          color: '#758696',
+          width: 1,
+          style: 3, // Dashed
         },
       },
       timeScale: {
@@ -85,6 +97,23 @@ export function ChartContainer() {
 
     chartRef.current = chart;
     seriesRef.current = candleSeries;
+    
+    // Add crosshair move handler
+    chart.subscribeCrosshairMove((param: MouseEventParams) => {
+      if (!param.time || !param.point) {
+        setCrosshairData(null);
+        return;
+      }
+
+      const data = param.seriesData.get(candleSeries);
+      if (data) {
+        setCrosshairData({
+          candle: data as Candle,
+          x: param.point.x,
+          y: param.point.y
+        });
+      }
+    });
     
     const createTime = performance.now() - startTime;
     console.log(`[ChartContainer] ✓ Chart created in ${createTime.toFixed(2)}ms`);
@@ -167,6 +196,15 @@ export function ChartContainer() {
             activeTool={activeTool}
             containerRef={chartContainerRef}
           />
+          
+          {/* Crosshair Tooltip */}
+          {crosshairData && (
+            <CrosshairTooltip
+              candle={crosshairData.candle}
+              x={crosshairData.x}
+              y={crosshairData.y}
+            />
+          )}
         </div>
         
         {/* Loading overlay - only show if actually loading and no candles */}
