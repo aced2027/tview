@@ -1,22 +1,28 @@
 import { Tick, Candle, Timeframe } from '../types';
 
-const TIMEFRAME_MS: Record<Timeframe, number> = {
+export const TIMEFRAME_MS: Record<Timeframe, number> = {
   '1s': 1000,
   '5s': 5000,
   '10s': 10000,
   '30s': 30000,
   '1m': 60000,
+  '1min': 60000,
   '3m': 180000,
   '5m': 300000,
+  '5min': 300000,
   '15m': 900000,
+  '15min': 900000,
   '30m': 1800000,
+  '30min': 1800000,
   '1h': 3600000,
   '2h': 7200000,
   '4h': 14400000,
   '6h': 21600000,
   '12h': 43200000,
   '1D': 86400000,
+  '1d': 86400000,
   '1W': 604800000,
+  '1w': 604800000,
   '1M': 2592000000
 };
 

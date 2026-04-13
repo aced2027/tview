@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { IChartApi } from 'lightweight-charts';
-
-type CursorTool = 'cross' | 'dot' | 'arrow' | 'eraser';
+import { CursorTool } from '../../types';
 
 interface DrawnLine {
   id: string;

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { createChart, IChartApi } from 'lightweight-charts';
+import { createChart, IChartApi, UTCTimestamp } from 'lightweight-charts';
 import { Candle } from '../../types';
 
 interface VolumeChartProps {
@@ -42,7 +42,7 @@ export function VolumeChart({ candles }: VolumeChartProps) {
     });
 
     const volumeData = candles.map(c => ({
-      time: c.time,
+      time: c.time as UTCTimestamp,
       value: c.volume,
       color: c.close >= c.open ? '#2ea043' : '#f85149'
     }));

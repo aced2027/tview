@@ -2,6 +2,10 @@ export type Timeframe = '1s' | '5s' | '10s' | '30s' | '1m' | '1min' | '3m' | '5m
 
 export type ChartType = 'candlestick' | 'heikin-ashi' | 'line' | 'area' | 'bar' | 'hollow';
 
+export type DrawingTool = 'cursor' | 'horizontal' | 'horizontal-line' | 'vertical' | 'trendline' | 'ray' | 'rectangle' | 'fibonacci' | 'cross' | 'dot' | 'arrow' | 'eraser';
+export type CursorTool = 'cursor' | 'horizontal' | 'horizontal-line' | 'vertical' | 'trendline' | 'cross' | 'dot' | 'arrow' | 'eraser';
+export type TrendTool = 'trendline' | 'ray' | 'horizontal-line' | 'vertical';
+
 export interface Tick {
   timestamp: number;
   bid: number;

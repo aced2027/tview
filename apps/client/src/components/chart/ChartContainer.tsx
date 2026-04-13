@@ -5,10 +5,7 @@ import { useChartData } from '../../hooks/useChartData';
 import { ChartToolbar } from './ChartToolbar';
 import { DrawingToolsSidebar } from './DrawingToolsSidebar';
 import { ChartInteractionLayer } from './ChartInteractionLayer';
-
-type CursorTool = 'cross' | 'dot' | 'arrow' | 'eraser';
-type TrendTool = 'trendline' | 'ray' | 'horizontal' | 'parallel-channel';
-type DrawingTool = CursorTool | TrendTool;
+import { DrawingTool, CursorTool, TrendTool } from '../../types';
 
 export function ChartContainer() {
   const chartContainerRef = useRef<HTMLDivElement>(null);
