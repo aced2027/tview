@@ -1,0 +1,24 @@
+# Large data files
+*.csv
+*.parquet
+*.feather
+*.pkl
+*.h5
+*.hdf5
+
+# Node
+node_modules/
+dist/
+build/
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db

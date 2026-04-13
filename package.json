@@ -1,0 +1,23 @@
+{
+  "name": "trading-terminal",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --workspace=apps/server",
+    "dev:client": "npm run dev --workspace=apps/client",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "convert": "node scripts/convert-ticks.js",
+    "validate": "node scripts/validate-ticks.js",
+    "generate-data": "node scripts/generate-sample-data.js",
+    "generate-candles": "node scripts/generate-candles.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  }
+}
