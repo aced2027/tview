@@ -8,6 +8,9 @@ import { setupWebSocket } from './websocket/tickSocket.js';
 import { createSymbolsRouter } from './routes/symbols.js';
 import { createCandlesRouter } from './routes/candles.js';
 import { createTicksRouter } from './routes/ticks.js';
+import { createAuthRouter } from './routes/auth.js';
+import { createUserRouter } from './routes/user.js';
+import { isSupabaseEnabled } from './config/supabase.js';
 
 dotenv.config();
 
@@ -26,6 +29,15 @@ const streamer = new TickStreamer(loader);
 app.use('/api/symbols', createSymbolsRouter(loader));
 app.use('/api/candles', createCandlesRouter(loader));
 app.use('/api/ticks', createTicksRouter(loader));
+
+// Supabase-powered routes (only if configured)
+if (isSupabaseEnabled()) {
+  app.use('/api/auth', createAuthRouter());
+  app.use('/api/users', createUserRouter());
+  console.log('✅ Supabase integration enabled');
+} else {
+  console.log('⚠️  Supabase not configured - user features disabled');
+}
 
 setupWebSocket(server, streamer);
 
